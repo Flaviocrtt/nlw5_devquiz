@@ -14,9 +14,6 @@ class AnswerWidget extends StatelessWidget {
   Color get _selectedBorderRight =>
       isRight ? AppColors.lightGreen : AppColors.lightRed;
 
-  Color get _selectedColorCardRight =>
-      isRight ? AppColors.lightGreen : AppColors.lightRed;
-
   Color get _selectedBorderCardRight =>
       isRight ? AppColors.green : AppColors.red;
 

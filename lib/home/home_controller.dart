@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:devquiz/home/home_repository.dart';
 import 'package:devquiz/home/home_state.dart';
 import 'package:devquiz/shared/models/quiz_model.dart';
@@ -19,12 +17,19 @@ class HomeController {
   void getUser() async {
     state = HomeState.loading;
     user = await repository.getUser();
-    state = HomeState.sucess;
+    state = HomeState.success;
   }
 
   void getQuizzes() async {
     state = HomeState.loading;
     quizzes = await repository.getQuizzes();
-    state = HomeState.sucess;
+    state = HomeState.success;
+  }
+
+  void getFetchData() async {
+    state = HomeState.loading;
+    user = await repository.getUser();
+    quizzes = await repository.getQuizzes();
+    state = HomeState.success;
   }
 }

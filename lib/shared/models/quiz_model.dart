@@ -50,11 +50,11 @@ class QuizModel {
   factory QuizModel.fromMap(Map<String, dynamic> map) {
     return QuizModel(
         title: map['title'],
-        questions: List<QuestionModel>.from(
-            map['questions']?.map((x) => QuestionModel.fromMap(x))),
-        questionAnswered: map['questionAnswered'],
         image: map['image'],
-        level: map['level'].toString().levelParse);
+        level: map['level'].toString().levelParse,
+        questionAnswered: map['questionAnswered'] ?? 0,
+        questions: List<QuestionModel>.from(
+            map['questions']?.map((x) => QuestionModel.fromMap(x))));
   }
 
   String toJson() => json.encode(toMap());

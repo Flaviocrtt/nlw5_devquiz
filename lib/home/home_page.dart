@@ -1,3 +1,4 @@
+import 'package:devquiz/challenge/challenge_page.dart';
 import 'package:devquiz/core/app_colors.dart';
 import 'package:devquiz/home/home_controller.dart';
 import 'package:devquiz/home/home_state.dart';
@@ -20,8 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    controller.getUser();
-    controller.getQuizzes();
+    controller.getFetchData();
     controller.stateNotifier.addListener(() {
       setState(() {});
     });
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (controller.state == HomeState.sucess) {
+    if (controller.state == HomeState.success) {
       return Scaffold(
         appBar: AppBarWidget(user: controller.user!),
         body: Padding(
@@ -60,17 +60,29 @@ class _HomePageState extends State<HomePage> {
                 height: 24,
               ),
               Expanded(
-                child: GridView.count(
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    crossAxisCount: 2,
-                    children: controller.quizzes!
-                        .map((e) => QuizCardWidget(
-                              title: e.title,
-                              questionAnswered: e.questionAnswered,
-                              totalQuestions: e.questions.length,
-                            ))
-                        .toList()),
+                child: controller.quizzes != null
+                    ? GridView.count(
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        crossAxisCount: 2,
+                        children: controller.quizzes!
+                            .map((e) => QuizCardWidget(
+                                  title: e.title,
+                                  questionAnswered: e.questionAnswered,
+                                  totalQuestions: e.questions.length,
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChallengePage(
+                                                  questions: e.questions,
+                                                )));
+                                  },
+                                ))
+                            .toList())
+                    : Center(
+                        child: Text("Nenhuma questão foi encontrada"),
+                      ),
               )
             ],
           ),

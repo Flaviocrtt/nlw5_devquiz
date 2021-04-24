@@ -2,12 +2,14 @@ import 'package:devquiz/challenge/widgets/answer/answer_widget.dart';
 import 'package:devquiz/core/app_text_styles.dart';
 import 'package:devquiz/shared/models/answer_model.dart';
 import 'package:devquiz/shared/models/question_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class QuizWidget extends StatefulWidget {
   final QuestionModel question;
-
-  const QuizWidget({Key? key, required this.question}) : super(key: key);
+  final bool isConfirmed;
+  const QuizWidget({Key? key, required this.question, this.isConfirmed = false})
+      : super(key: key);
 
   @override
   _QuizWidgetState createState() => _QuizWidgetState();
@@ -34,6 +36,7 @@ class _QuizWidgetState extends State<QuizWidget> {
             AnswerWidget(
               answer: answers(i),
               isSelected: indexSelected == i,
+              isConfirmed: widget.isConfirmed,
               onTap: () {
                 indexSelected = i;
                 setState(() {});

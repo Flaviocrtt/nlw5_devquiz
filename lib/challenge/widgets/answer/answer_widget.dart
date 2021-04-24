@@ -7,62 +7,102 @@ import 'package:flutter/widgets.dart';
 class AnswerWidget extends StatelessWidget {
   final AnswerModel answer;
   final bool isSelected;
+  final bool isConfirmed;
   final VoidCallback onTap;
 
-  Color get _selectedColorRight =>
-      answer.isRight ? AppColors.darkGreen : AppColors.darkRed;
+  Color _colorRight() {
+    if (isSelected) {
+      if (isConfirmed) {
+        return answer.isRight ? AppColors.darkGreen : AppColors.darkRed;
+      } else {
+        return AppColors.black;
+      }
+    }
+    return AppColors.white;
+  }
 
-  Color get _selectedBorderRight =>
-      answer.isRight ? AppColors.lightGreen : AppColors.lightRed;
+  Color _borderRight() {
+    if (isSelected) {
+      if (isConfirmed) {
+        return answer.isRight ? AppColors.lightGreen : AppColors.lightRed;
+      } else {
+        return AppColors.grey;
+      }
+    }
+    return AppColors.border;
+  }
 
-  Color get _selectedBorderCardRight =>
-      answer.isRight ? AppColors.green : AppColors.red;
+  Color _borderCardRight() {
+    if (isSelected) {
+      if (isConfirmed) {
+        return answer.isRight ? AppColors.green : AppColors.red;
+      } else {
+        return AppColors.black;
+      }
+    }
+    return AppColors.border;
+  }
 
-  TextStyle get _selectedTextStyleRight =>
-      answer.isRight ? AppTextStyles.bodyDarkGreen : AppTextStyles.bodyDarkRed;
+  TextStyle _textStyleRight() {
+    if (isSelected) {
+      if (isConfirmed) {
+        return answer.isRight
+            ? AppTextStyles.bodyDarkGreen
+            : AppTextStyles.bodyDarkRed;
+      } else {
+        return AppTextStyles.bodylightGrey;
+      }
+    }
+    return AppTextStyles.body;
+  }
 
-  IconData get _selectedIconRight => answer.isRight ? Icons.check : Icons.close;
+  IconData _selectedIconRight() {
+    if (isConfirmed && isSelected) {
+      return answer.isRight ? Icons.check : Icons.close;
+    }
+    return Icons.circle;
+  }
 
   const AnswerWidget({
     Key? key,
     required this.answer,
     required this.onTap,
     this.isSelected = false,
+    this.isConfirmed = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        decoration: BoxDecoration(
-            color: isSelected ? _selectedBorderCardRight : AppColors.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.fromBorderSide(BorderSide(
-                color:
-                    isSelected ? _selectedBorderCardRight : AppColors.border))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              answer.title,
-              style: isSelected ? _selectedTextStyleRight : AppTextStyles.body,
-            ),
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                  color: isSelected ? _selectedColorRight : AppColors.white,
-                  borderRadius: BorderRadius.circular(500),
-                  border: Border.fromBorderSide(BorderSide(
-                      color: isSelected
-                          ? _selectedBorderRight
-                          : AppColors.border))),
-              child: isSelected
-                  ? Icon(_selectedIconRight, size: 16, color: Colors.white)
-                  : null,
-            ),
-          ],
+    return IgnorePointer(
+      ignoring: isConfirmed,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          decoration: BoxDecoration(
+              color: _borderCardRight(),
+              borderRadius: BorderRadius.circular(10),
+              border:
+                  Border.fromBorderSide(BorderSide(color: _borderCardRight()))),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                answer.title,
+                style: _textStyleRight(),
+              ),
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                    color: _colorRight(),
+                    borderRadius: BorderRadius.circular(500),
+                    border: Border.fromBorderSide(
+                        BorderSide(color: _borderRight()))),
+                child:
+                    Icon(_selectedIconRight(), size: 16, color: Colors.white),
+              ),
+            ],
+          ),
         ),
       ),
     );

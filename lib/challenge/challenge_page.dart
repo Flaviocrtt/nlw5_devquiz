@@ -19,6 +19,7 @@ class _ChallengePageState extends State<ChallengePage> {
   final controller = ChallengeController();
   final pageController = PageController();
 
+  bool isConfirmed = false;
   @override
   void initState() {
     pageController.addListener(() {
@@ -50,33 +51,54 @@ class _ChallengePageState extends State<ChallengePage> {
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: widget.questions.map((e) => QuizWidget(question: e)).toList(),
+        children: widget.questions
+            .map((e) => QuizWidget(question: e, isConfirmed: isConfirmed))
+            .toList(),
       ),
       bottomNavigationBar: SafeArea(
         bottom: true,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(
-                  child: NextButtonWidget.white(
-                      label: "Pular",
-                      onTap: () {
-                        pageController.nextPage(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.easeInCirc);
-                      })),
-              SizedBox(width: 7),
-              Expanded(
-                  child: NextButtonWidget.green(
-                label: "Confirmar",
-                onTap: () {},
-              )),
-            ],
-          ),
+          child: ValueListenableBuilder<int>(
+              valueListenable: controller.currentPageNotifier,
+              builder: (context, value, _) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      if (value < widget.questions.length - 1)
+                        Expanded(
+                            child: NextButtonWidget.white(
+                                label: "Pular", onTap: nextPage)),
+                      if (!isConfirmed) SizedBox(width: 7),
+                      if (!isConfirmed)
+                        Expanded(
+                          child: NextButtonWidget.green(
+                              label: "Confirmar",
+                              onTap: () {
+                                isConfirmed = true;
+                                setState(() {});
+                              }),
+                        ),
+                      if (isConfirmed && value < widget.questions.length - 1)
+                        SizedBox(width: 7),
+                      if (isConfirmed && value < widget.questions.length - 1)
+                        Expanded(
+                          child: NextButtonWidget.green(
+                              label: "Proxima",
+                              onTap: () {
+                                isConfirmed = false;
+                                setState(() {});
+                                nextPage();
+                              }),
+                        ),
+                    ],
+                  )),
         ),
       ),
     );
+  }
+
+  void nextPage() {
+    pageController.nextPage(
+        duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 }

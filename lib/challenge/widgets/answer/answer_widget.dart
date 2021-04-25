@@ -10,59 +10,6 @@ class AnswerWidget extends StatelessWidget {
   final bool isConfirmed;
   final VoidCallback onTap;
 
-  Color _colorRight() {
-    if (isSelected) {
-      if (isConfirmed) {
-        return answer.isRight ? AppColors.darkGreen : AppColors.darkRed;
-      } else {
-        return AppColors.black;
-      }
-    }
-    return AppColors.white;
-  }
-
-  Color _borderRight() {
-    if (isSelected) {
-      if (isConfirmed) {
-        return answer.isRight ? AppColors.lightGreen : AppColors.lightRed;
-      } else {
-        return AppColors.grey;
-      }
-    }
-    return AppColors.border;
-  }
-
-  Color _borderCardRight() {
-    if (isSelected) {
-      if (isConfirmed) {
-        return answer.isRight ? AppColors.green : AppColors.red;
-      } else {
-        return AppColors.black;
-      }
-    }
-    return AppColors.border;
-  }
-
-  TextStyle _textStyleRight() {
-    if (isSelected) {
-      if (isConfirmed) {
-        return answer.isRight
-            ? AppTextStyles.bodyDarkGreen
-            : AppTextStyles.bodyDarkRed;
-      } else {
-        return AppTextStyles.bodylightGrey;
-      }
-    }
-    return AppTextStyles.body;
-  }
-
-  IconData _selectedIconRight() {
-    if (isConfirmed && isSelected) {
-      return answer.isRight ? Icons.check : Icons.close;
-    }
-    return Icons.circle;
-  }
-
   const AnswerWidget({
     Key? key,
     required this.answer,
@@ -98,13 +45,65 @@ class AnswerWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(500),
                     border: Border.fromBorderSide(
                         BorderSide(color: _borderRight()))),
-                child:
-                    Icon(_selectedIconRight(), size: 16, color: Colors.white),
+                child: Icon(_iconRight(), size: 16, color: Colors.white),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Color _colorRight() {
+    if (isSelected) {
+      if (isConfirmed) {
+        return answer.isRight ? AppColors.darkGreen : AppColors.darkRed;
+      } else {
+        return AppColors.lightGrey;
+      }
+    }
+    return AppColors.white;
+  }
+
+  Color _borderRight() {
+    if (isSelected) {
+      if (isConfirmed) {
+        return answer.isRight ? AppColors.lightGreen : AppColors.lightRed;
+      } else {
+        return AppColors.lightGrey;
+      }
+    }
+    return AppColors.border;
+  }
+
+  Color _borderCardRight() {
+    if (isSelected) {
+      if (isConfirmed) {
+        return answer.isRight ? AppColors.green : AppColors.red;
+      } else {
+        return AppColors.lightGrey;
+      }
+    }
+    return AppColors.border;
+  }
+
+  TextStyle _textStyleRight() {
+    if (isSelected) {
+      if (isConfirmed) {
+        return answer.isRight
+            ? AppTextStyles.bodyDarkGreen
+            : AppTextStyles.bodyDarkRed;
+      } else {
+        return AppTextStyles.bodylightGrey;
+      }
+    }
+    return AppTextStyles.body;
+  }
+
+  IconData _iconRight() {
+    if (isConfirmed && isSelected) {
+      return answer.isRight ? Icons.check : Icons.close;
+    }
+    return Icons.circle;
   }
 }

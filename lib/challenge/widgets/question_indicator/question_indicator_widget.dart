@@ -15,6 +15,7 @@ class QuestionIndicatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var progressPercent = length / (currentePage + 1);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(children: [
@@ -34,7 +35,7 @@ class QuestionIndicatorWidget extends StatelessWidget {
         SizedBox(
           height: 16,
         ),
-        ProgressIndicadorWidget(value: length / (currentePage + 1))
+        ProgressIndicadorWidget(value: progressPercent)
       ]),
     );
   }

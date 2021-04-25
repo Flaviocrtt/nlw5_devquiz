@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 class QuizWidget extends StatefulWidget {
   final QuestionModel question;
   final bool isConfirmed;
+
   const QuizWidget({Key? key, required this.question, this.isConfirmed = false})
       : super(key: key);
 

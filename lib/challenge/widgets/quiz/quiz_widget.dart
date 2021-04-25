@@ -8,8 +8,13 @@ import 'package:flutter/widgets.dart';
 class QuizWidget extends StatefulWidget {
   final QuestionModel question;
   final bool isConfirmed;
+  final ValueChanged<bool> onTapAnswer;
 
-  const QuizWidget({Key? key, required this.question, this.isConfirmed = false})
+  const QuizWidget(
+      {Key? key,
+      required this.question,
+      this.isConfirmed = false,
+      required this.onTapAnswer})
       : super(key: key);
 
   @override
@@ -18,7 +23,7 @@ class QuizWidget extends StatefulWidget {
 
 class _QuizWidgetState extends State<QuizWidget> {
   int indexSelected = -1;
-
+  bool isCorrectlyAnswered = false;
   AnswerModel answers(int index) => widget.question.answers[index];
 
   @override
@@ -38,7 +43,8 @@ class _QuizWidgetState extends State<QuizWidget> {
               answer: answers(i),
               isSelected: indexSelected == i,
               isConfirmed: widget.isConfirmed,
-              onTap: () {
+              onTap: (value) {
+                widget.onTapAnswer(value);
                 indexSelected = i;
                 setState(() {});
               },

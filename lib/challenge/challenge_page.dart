@@ -55,7 +55,14 @@ class _ChallengePageState extends State<ChallengePage> {
         physics: NeverScrollableScrollPhysics(),
         controller: pageController,
         children: widget.questions
-            .map((e) => QuizWidget(question: e, isConfirmed: isConfirmed))
+            .map((e) => QuizWidget(
+                question: e,
+                isConfirmed: isConfirmed,
+                onTapAnswer: (value) {
+                  if (value) {
+                    controller.hitsLength++;
+                  }
+                }))
             .toList(),
       ),
       bottomNavigationBar: SafeArea(
@@ -104,7 +111,7 @@ class _ChallengePageState extends State<ChallengePage> {
                                         builder: (context) => ResultPage(
                                             title: widget.title,
                                             length: widget.questions.length,
-                                            hitLength: 0)));
+                                            hitLength: controller.hitsLength)));
                               }),
                         ),
                     ],

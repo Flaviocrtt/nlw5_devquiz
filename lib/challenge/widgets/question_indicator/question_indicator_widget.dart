@@ -15,7 +15,9 @@ class QuestionIndicatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var progressPercent = length / (currentePage + 1);
+    int _currentQuestion = currentePage + 1;
+    double _progressPercent = (_currentQuestion / length).toDouble();
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(children: [
@@ -23,11 +25,11 @@ class QuestionIndicatorWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Questão $currentePage",
+              "Questão $_currentQuestion",
               style: AppTextStyles.body,
             ),
             Text(
-              "de ${length - 1}",
+              "de $length",
               style: AppTextStyles.body,
             ),
           ],
@@ -35,7 +37,7 @@ class QuestionIndicatorWidget extends StatelessWidget {
         SizedBox(
           height: 16,
         ),
-        ProgressIndicadorWidget(value: progressPercent)
+        ProgressIndicadorWidget(value: _progressPercent)
       ]),
     );
   }
